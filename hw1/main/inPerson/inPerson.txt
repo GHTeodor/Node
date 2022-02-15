@@ -1,3 +1,0 @@
-NAME: Pablo
-AGE: 23
-CITY: Kyiv

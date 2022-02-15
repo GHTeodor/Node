@@ -1,0 +1,3 @@
+NAME: Alfonso
+AGE: 22
+CITY: Lviv

@@ -11,62 +11,52 @@
 const path = require("path");
 const fs = require("fs");
 
-const onlineUsers = [{ name: "Alfonso", age: 22, city: "Lviv" }];
-const inPersonUsers = [{ name: "Pablo", age: 23, city: "Kyiv" }];
+const inPersonUsers = [
+    {name: "Alfonso", age: 22, city: "Lviv"},
+    {name: "Rick", age: 22, city: "Davenport"},
+    {name: "Morty", age: 22, city: "Davenport"}
+];
+const onlineUsers = [
+    {name: "Pablo", age: 23, city: "Kyiv"},
+    {name: "Homer", age: 23, city: "Springfield"},
+    {name: "Bender", age: 23, city: "New York"}
+];
 
-fs.mkdir(path.join(__dirname, 'main', 'online'), {recursive: true}, err => {
-    if (err) {
-        console.log(err);
-        throw err;
-    }
-    fs.writeFile(path.join(__dirname, 'main', 'online', 'online.txt'),
-        `NAME: ${onlineUsers[0].name}\nAGE: ${onlineUsers[0].age}\nCITY: ${onlineUsers[0].city}`, err => {
+function createUsers(folder, users) {
+    fs.mkdir(path.join(__dirname, 'main', folder), {recursive: true}, err => {
         if (err) {
             console.log(err);
             throw err;
         }
-    });
-});
-
-fs.mkdir(path.join(__dirname, 'main', 'inPerson'), {recursive: true}, err => {
-    if (err) {
-        console.log(err);
-        throw err;
-    }
-    fs.writeFile(path.join(__dirname, 'main', 'inPerson', 'inPerson.txt'),
-        `NAME: ${inPersonUsers[0].name}\nAGE: ${inPersonUsers[0].age}\nCITY: ${inPersonUsers[0].city}`, err => {
-        if (err) {
-            console.log(err);
-            throw err;
+        for (let j = 0; j < users.length; j++) {
+            fs.writeFile(path.join(__dirname, 'main', folder, `${users[j].name}-${j}.txt`),
+                `NAME: ${users[j].name}\nAGE: ${users[j].age}\nCITY: ${users[j].city}`, err => {
+                    if (err) {
+                        console.log(err);
+                        throw err;
+                    }
+                });
         }
-    });
-});
-
-function replaceData(formTo, toFrom) {
-    fs.readFile(path.join(__dirname, 'main', 'inPerson', formTo), "utf-8", (err, data) => {
-        if (err) {
-            console.log(err);
-            throw err;
-        }
-        fs.appendFile(path.join(__dirname, 'main', 'online', toFrom), data, {flag: "w"}, err => {
-            if (err) {
-                console.log(err);
-                throw err;
-            }
-        });
-    });
-    fs.readFile(path.join(__dirname, 'main', 'online', toFrom), "utf-8", (err, data) => {
-        if (err) {
-            console.log(err);
-            throw err;
-        }
-        fs.appendFile(path.join(__dirname, 'main', 'inPerson', formTo), data, {flag: "w"}, err => {
-            if (err) {
-                console.log(err);
-                throw err;
-            }
-        });
     });
 }
 
-// replaceData('inPerson.txt', 'online.txt');
+createUsers("online", onlineUsers);
+createUsers("inPerson", inPersonUsers);
+
+function replaceData(formTo = 'inPerson', toFrom = 'online') {
+    fs.readdir(path.join(__dirname, 'main', formTo), (err, files_txt) => {
+        if (err) {
+            console.log(err);
+            throw err;
+        }
+        files_txt.forEach(file => fs.rename(path.join(__dirname, 'main', formTo, file), path.join(__dirname, 'main', toFrom, file), err => {
+            if (err) {
+                console.log(err);
+                throw err;
+            }
+        }));
+    });
+}
+
+// replaceData();
+// replaceData('online', 'inPerson');

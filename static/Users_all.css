@@ -1,0 +1,12 @@
+#user {
+    min-width: 500px;
+    border: darkslategrey double thick;
+    border-radius: 8px;
+    background-color: aquamarine;
+}
+
+.users {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}

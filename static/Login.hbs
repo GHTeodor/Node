@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>HBS</title>
+    <link rel="stylesheet" href="Login.css">
+</head>
+<body>
+<header style="position: fixed">
+    <a href="/">API</a>
+    <a href="/users">Users</a>
+    <a href="/error">Errors</a>
+</header>
+<div>
+    <form action="/login" method="post">
+        <label>FirstName:<input type="text" name="firstName"></label>
+        <label>LastName:<input type="text" name="lastName"></label>
+        <label>Login:<input type="email" name="email"></label>
+        <label>Password:<input type="password" name="password"></label>
+        <label>Age:<input type="number" name="age"></label>
+        <label>City:<input type="text" name="city"></label>
+        <input type="submit" value="Enter">
+    </form>
+</div>
+</body>
+</html>

@@ -4,6 +4,10 @@
 // // 2. /users просто сторінка з усіма users, але можна по query параметрам їх фільтрувати по age і city
 // // 3. /user/:id сторінка з інфою про одного user
 // // 4. зробити якщо не відпрацюють endpoint, то на сторінку redirect NotFound
+// // =================================================================================================================
+// // - додайте endpoint signIn який буде приймати email і password і якщо все вірно, то redirect на сторінку цього
+// // * хто хоче складніше реалізуйте видалення користувача.
+// // Кнопка повинна знаходитись на сторінці з інфою про одного user. Після видалення redirect на "/users"
 
 const express = require("express");
 const {engine} = require("express-handlebars");
@@ -19,11 +23,11 @@ app.set('view engine', '.hbs');
 app.engine('.hbs', engine({defaultLayout: false}));
 app.set('views', path.join(__dirname, 'static'));
 
-const users = [
-    {firstName: 'A', lastName: 'A', email: 'A1@a.com', password: 'const.log1', age: '21', city: 'city1'},
-    {firstName: 'B', lastName: 'B', email: 'B2@b.com', password: 'const.log2', age: '32', city: 'city2'},
-    {firstName: 'C', lastName: 'C', email: 'C3@c.com', password: 'const.log3', age: '43', city: 'city3'},
-    {firstName: 'D', lastName: 'D', email: 'D4@d.com', password: 'const.log4', age: '54', city: 'city4'}
+let users = [
+    {id: 1, firstName: 'A', lastName: 'A', email: 'A1@a.com', password: 'const.log1', age: '21', city: 'city1'},
+    {id: 2, firstName: 'B', lastName: 'B', email: 'B2@b.com', password: 'const.log2', age: '32', city: 'city2'},
+    {id: 3, firstName: 'C', lastName: 'C', email: 'C3@c.com', password: 'const.log3', age: '43', city: 'city3'},
+    {id: 4, firstName: 'D', lastName: 'D', email: 'D4@d.com', password: 'const.log4', age: '54', city: 'city4'}
 ];
 let error = [];
 
@@ -47,6 +51,12 @@ app.get('/users/:userID', ({params}, res) => {
     res.render('user', {user});
 });
 
+app.post('/users/:userId', ({params}, res) => {
+    users = users.filter(user => user.id !== +params.userId);
+
+    res.redirect('/users');
+});
+
 app.get('/login', ((req, res) => res.render('Login')));
 
 app.post('/login', (({body}, res) => {
@@ -54,9 +64,16 @@ app.post('/login', (({body}, res) => {
         error.push(body);
         return res.redirect('/error');
     }
-    users.push(body);
+    users.push({...body, id: users.length ? users[users.length - 1].id + 1 : 1});
     return res.redirect('/users');
 }));
+
+app.get('/singIn', (req, res) => res.render('singIn'));
+
+app.post('/singIn', ({body}, res) => {
+    const singIN = users.find(user => user.email === body.email && user.password === body.password);
+    (singIN) ? res.redirect('users/' + singIN.id) : res.send('<h1>Wrong password or email!!!!!</h1>');
+});
 
 app.get('/error', (req, res) =>
     res.render('error', {error}));

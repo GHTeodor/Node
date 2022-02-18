@@ -13,18 +13,24 @@
     <a href="/login">Login</a>
     <a href="/">API</a>
     <a href="/error">Errors</a>
+    <a href="/singIn">SingIn</a>
 </header>
 
 <h1>USERS</h1>
 <div class="users">
     {{#each users}}
-        <div id="user">
-            <div>|{{this.firstName}}</div>
-            <div>|{{this.lastName}}</div>
-            <div>|{{this.email}}</div>
-            <div>|{{this.password}}</div>
-            <div>|{{this.age}}</div>
-            <div>|{{this.city}}</div>
+        <div id="user" style="display: flex; justify-content: space-between; align-items: center">
+            <div>
+                <div>|{{this.firstName}}</div>
+                <div>|{{this.lastName}}</div>
+                <div>|{{this.email}}</div>
+                <div>|{{this.password}}</div>
+                <div>|{{this.age}}</div>
+                <div>|{{this.city}}</div>
+            </div>
+            <a href="/users/+{{this.id}}">
+                <button>Click Info</button>
+            </a>
         </div>
     {{/each}}
 </div>

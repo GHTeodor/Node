@@ -23,6 +23,7 @@
     <a href="/">API</a>
     <a href="/users">Users</a>
     <a href="/error">Errors</a>
+    <a href="/singIn">SingIn</a>
 </header>
 
 <h1>USER</h1>
@@ -36,5 +37,8 @@
         <li>|{{this.city}}</li>
     {{/user}}
 </ul>
+<form action="/users/{{user.id}}" method="post">
+    <button>X</button>
+</form>
 </body>
 </html>

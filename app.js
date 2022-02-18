@@ -19,9 +19,6 @@ app.set('view engine', '.hbs');
 app.engine('.hbs', engine({defaultLayout: false}));
 app.set('views', path.join(__dirname, 'static'));
 
-const PORT = 5200;
-app.listen(PORT, () => console.log(`Server has been started on PORT ${PORT}...`));
-
 const users = [
     {firstName: 'A', lastName: 'A', email: 'A1@a.com', password: 'const.log1', age: '21', city: 'city1'},
     {firstName: 'B', lastName: 'B', email: 'B2@b.com', password: 'const.log2', age: '32', city: 'city2'},
@@ -41,13 +38,13 @@ app.get('/users', ({query}, res) => {
     else if (city || age)
         (city) ? userQ = userQ.filter(user => user.city === city) : userQ = userQ.filter(user => user.age === age);
 
-    res.render('Users', {users: userQ});
+    res.render('users', {users: userQ});
 });
 
 app.get('/users/:userID', ({params}, res) => {
     const {userID} = params;
     const user = users[userID - 1];
-    res.render('User', {user});
+    res.render('user', {user});
 });
 
 app.get('/login', ((req, res) => res.render('Login')));
@@ -62,7 +59,10 @@ app.post('/login', (({body}, res) => {
 }));
 
 app.get('/error', (req, res) =>
-    res.render('Error', {error}));
+    res.render('error', {error}));
 
 app.use((req, res) =>
-    res.render('NotFound'));
+    res.render('notFound'));
+
+const PORT = 5200;
+app.listen(PORT, () => console.log(`Server has been started on PORT ${PORT}...`));

@@ -9,9 +9,9 @@ function isUserRegistered(req, res, next) {
 
         if (password.length < 6) throw new Error('Not valid password');
 
-        if (userIndex===-1) throw new Error('User is not registered OR Wrong login or password!');
+        if (userIndex === -1) throw new Error('User is not registered OR Wrong login or password!');
 
-        req.user = userIndex+1;
+        req.user = users[userIndex].id;
         next();
     } catch ({message}) {
         res.status(400).render('error', {message});

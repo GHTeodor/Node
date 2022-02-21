@@ -17,16 +17,7 @@
 </header>
 
 <h1>ERRORS</h1>
-<p style="color: orangered">User with this Email is already exist</p>
-{{#each errors}}
-    <div id="user">
-        <div>|{{this.firstName}}</div>
-        <div>|{{this.lastName}}</div>
-        <div>|{{this.email}}</div>
-        <div>|{{this.password}}</div>
-        <div>|{{this.age}}</div>
-        <div>|{{this.city}}</div>
-    </div>
-{{/each}}
+
+<div style="color: orangered">{{message}}</div>
 </body>
 </html>

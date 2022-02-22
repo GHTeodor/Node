@@ -1,31 +1,29 @@
-import {MigrationInterface, QueryRunner, Table} from "typeorm";
+import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
 export class $npmConfigName1645547546596 implements MigrationInterface {
-
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(new Table({
-            name: "Posts",
+            name: 'Posts',
             columns: [
                 {
-                    name: "id",
-                    type: "int",
+                    name: 'id',
+                    type: 'int',
                     isPrimary: true,
                     isGenerated: true,
-                    generationStrategy: "increment"
+                    generationStrategy: 'increment',
                 },
                 {
-                    name: "title",
-                    type: "varchar",
+                    name: 'title',
+                    type: 'varchar',
                     width: 250,
                     isUnique: true,
-                    isNullable: false
-                }
-            ]
+                    isNullable: false,
+                },
+            ],
         }), true);
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable("Posts", true);
+        await queryRunner.dropTable('Posts', true);
     }
-
 }

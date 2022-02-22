@@ -8,10 +8,10 @@ export class Node1645544783170 implements MigrationInterface {
             firstName VARCHAR(250) NOT NULL,
             lastName VARCHAR(250) NOT NULL
         );
-        `)
+        `);
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.query(`DROP TABLE IF EXISTS Users`);
+        await queryRunner.query('DROP TABLE IF EXISTS Users');
     }
 }

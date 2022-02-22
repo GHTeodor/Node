@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "rimraf dist && tsc-watch --onSuccess 'nodemon ./src/app.ts'",
+    "start": "rimraf dist && tsc-watch --onSuccess \"nodemon ./src/app.ts\"",
     "lint": "eslint --cache --ext .js,.ts src",
     "lint:fix": "npm run lint -- --fix",
     "typeorm": "node -r ts-node/register ./node_modules/typeorm/cli.js",

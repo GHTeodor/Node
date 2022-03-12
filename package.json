@@ -4,25 +4,19 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "rimraf dist && tsc-watch --onSuccess \"nodemon ./src/app.ts\"",
+    "start": "rimraf dist && tsc-watch --onSuccess 'npm run watch:server'",
+    "watch:server": "nodemon './src/app.ts' --watch './src'",
     "lint": "eslint --cache --ext .js,.ts src",
     "lint:fix": "npm run lint -- --fix",
+
     "typeorm": "node -r ts-node/register ./node_modules/typeorm/cli.js",
     "migration:generate": "typeorm migration:create -n $npm_config_name",
     "migration:run": "npm run typeorm migration:run",
     "migration:revert": "npm run typeorm migration:revert"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/GHTeodor/Node.git"
-  },
   "keywords": [],
   "author": "T",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/GHTeodor/Node/issues"
-  },
-  "homepage": "https://github.com/GHTeodor/Node#readme",
   "dependencies": {
     "express": "^4.17.3",
     "mysql2": "^2.3.3",
@@ -40,7 +34,6 @@
     "nodemon": "^2.0.15",
     "rimraf": "^3.0.2",
     "ts-node": "^10.5.0",
-    "tsc-watch": "^4.6.0",
-    "typescript": "^4.5.5"
+    "tsc-watch": "^4.6.0"
   }
 }

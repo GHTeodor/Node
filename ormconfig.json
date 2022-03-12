@@ -7,11 +7,14 @@
   "database": "okten",
   "synchronize": true,
   "logging": false,
-  "entities": [],
+  "entities": [
+    "src/entity/**/*.ts"
+  ],
   "migrations": [
     "src/migration/**/*.ts"
   ],
-  "subscribers": [],
+  "subscribers": [
+  ],
   "cli": {
     "migrationsDir": "src/migration"
   }

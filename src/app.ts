@@ -1,11 +1,16 @@
 import 'reflect-metadata';
 import express, { Request, Response } from 'express';
 import { createConnection, getManager } from 'typeorm';
+
 import { User } from './entity/user';
+import { apiRouter } from './router/apiRouter';
+import { config } from './config/config';
 
 const app = express();
 app.use(express.json());
-app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: true }));
+
+app.use(apiRouter);
 
 app.get('/users', async (req: Request, res: Response) => {
     const users = await getManager().getRepository(User).find({ relations: ['posts'] });
@@ -17,8 +22,6 @@ app.get('/users', async (req: Request, res: Response) => {
     // =================================
     res.json(users);
 });
-
-app.post('/users', async (req, res) => res.json(await getManager().getRepository(User).save(req.body)));
 
 app.patch('/users/:id', async (req, res) => {
     const { password, email } = req.body;
@@ -39,13 +42,14 @@ app.delete('/users/:id', async (req, res) => {
     res.json(deletedUser);
 });
 
-const PORT:number = 5200;
+const { PORT } = config;
 app.listen(PORT, async () => {
+    console.log(`Server has been started on port ${PORT} 🚀🚀🚀`);
+
     try {
         const connection = await createConnection();
         if (connection) console.log('Database connected');
     } catch (error) {
         if (error) console.log(error);
     }
-    console.log(`Server has been started on port ${PORT} 🚀🚀🚀`);
 });

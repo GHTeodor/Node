@@ -8,7 +8,7 @@ export interface ICommonFields {
     deletedAt?: string;
 }
 
-export class CommonFields {
+export class CommonFields implements ICommonFields {
     @PrimaryGeneratedColumn()
         id: number;
 

@@ -5,7 +5,7 @@ import { userService } from '../services/userService';
 
 class UserController {
     public async createUser(req: Request, res: Response): Promise<Response<IUser>> {
-        return res.json(userService.createUser(req.body));
+        return res.json(await userService.createUser(req.body));
     }
 
     public async getUserByEmail(req: Request, res: Response): Promise<Response<IUser>> {

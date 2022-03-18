@@ -1,10 +1,10 @@
 import {
     Column, Entity, JoinColumn, ManyToOne,
 } from 'typeorm';
-import { CommonFields } from './commonFields';
+import { CommonFields, ICommonFields } from './commonFields';
 import { User } from './user';
 
-export interface IPost {
+export interface IPost extends ICommonFields {
     title: string;
     text: string;
     userId: number;

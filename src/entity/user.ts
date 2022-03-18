@@ -1,8 +1,8 @@
 import { Column, Entity, OneToMany } from 'typeorm';
-import { CommonFields } from './commonFields';
+import { CommonFields, ICommonFields } from './commonFields';
 import { Post } from './post';
 
-export interface IUser {
+export interface IUser extends ICommonFields {
     id: number;
     firstName: string;
     lastName: string;

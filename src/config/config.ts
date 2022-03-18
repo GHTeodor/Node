@@ -4,6 +4,6 @@ dotenv.config();
 
 export const config = {
     PORT: process.env.PORT || 5000,
-    SECRET_ACCESS_KEY: process.env.secret_access_key,
-    SECRET_REFRESH_KEY: process.env.secret_refresh_key,
+    SECRET_ACCESS_KEY: process.env.SECRET_ACCESS_KEY,
+    SECRET_REFRESH_KEY: process.env.SECRET_REFRESH_KEY,
 };

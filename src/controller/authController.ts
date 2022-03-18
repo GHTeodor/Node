@@ -1,9 +1,10 @@
 import { Request, Response } from 'express';
 
 import { authService } from '../services/authService';
+import { ITokenData } from '../interfaces/token.interface';
 
 class AuthController {
-    public async registration(req: Request, res: Response) {
+    public async registration(req: Request, res: Response): Promise<Response<ITokenData>> {
         const data = await authService.registration(req.body);
         res.cookie(
             'refreshToken',

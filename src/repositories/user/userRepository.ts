@@ -12,6 +12,7 @@ class UserRepository extends Repository<User> {
         return getManager().getRepository(User)
             .createQueryBuilder('user')
             .where('user.email = :email', { email })
+            .andWhere('user.deletedAt IS NULL')
             .getOne();
     }
 }

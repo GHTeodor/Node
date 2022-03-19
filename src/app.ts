@@ -2,9 +2,9 @@ import 'reflect-metadata';
 import express, { Request, Response } from 'express';
 import { createConnection, getManager } from 'typeorm';
 
-import { User } from './entity/user';
-import { apiRouter } from './router/apiRouter';
-import { config } from './config/config';
+import { User } from './entity';
+import { apiRouter } from './routers/apiRouter';
+import { config } from './configs/config';
 
 const app = express();
 app.use(express.json());

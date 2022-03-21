@@ -6,8 +6,7 @@ import { tokenRepository } from '../repositories';
 import { IUserPayload, ITokenPair } from '../interfaces';
 
 class TokenService {
-    public async generateTokenPair(payload: IUserPayload):
-        Promise<ITokenPair> {
+    public generateTokenPair(payload: IUserPayload): ITokenPair {
         const accessToken = jwt.sign(
             payload,
             config.SECRET_ACCESS_KEY as string,
@@ -25,13 +24,14 @@ class TokenService {
         };
     }
 
-    public async saveToken(userId: number, refreshToken: string): Promise<IToken> {
+    public async saveToken(userId: number, refreshToken: string, accessToken: string): Promise<IToken> {
         const tokenFromDB = await tokenRepository.findTokenByUserId(userId);
         if (tokenFromDB) {
             tokenFromDB.refreshToken = refreshToken;
+            tokenFromDB.accessToken = accessToken;
             return tokenRepository.createToken(tokenFromDB);
         }
-        return tokenRepository.createToken({ refreshToken, userId });
+        return tokenRepository.createToken({ accessToken, refreshToken, userId });
     }
 
     public async deleteUserTokenPair(userId: number) {

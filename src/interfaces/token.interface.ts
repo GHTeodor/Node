@@ -1,5 +1,6 @@
 export interface ITokenDataToSave {
     refreshToken: string;
+    accessToken: string;
     userId: number;
 }
 export interface ITokenPair {

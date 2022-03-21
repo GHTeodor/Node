@@ -12,8 +12,14 @@ class UserService {
         return createdUser;
     }
 
-    public async getUserByEmail(email: string):Promise<IUser | undefined> {
+    public async getUserByEmail(email: string): Promise<IUser | undefined> {
         return userRepository.getUserByEmail(email);
+    }
+
+    public async compareUserPasswords(password: string, hash: string): Promise<Error | void> {
+        const isPasswordUnique = await bcrypt.compare(password, hash);
+
+        if (!isPasswordUnique) throw new Error('User is not exist');
     }
 
     private async _hashPassword(password: string): Promise<string> {

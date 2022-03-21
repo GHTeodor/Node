@@ -2,19 +2,22 @@ import { Response, NextFunction } from 'express';
 
 import { tokenService, userService } from '../services';
 import { IRequestExtended } from '../interfaces';
+import { tokenRepository } from '../repositories';
 
 class AuthMiddleware {
     public async checkAccessToken(req: IRequestExtended, res: Response, next: NextFunction) {
         try {
-            const authToken = req.get('Authorization');
+            const accessToken = req.get('Authorization');
 
-            if (!authToken) throw new Error('No token');
+            if (!accessToken) throw new Error('No token');
 
-            const { userEmail } = tokenService.verifyToken(authToken);
+            const { userEmail } = tokenService.verifyToken(accessToken);
+
+            const tokenPairFromDB = await tokenRepository.findByParams({ accessToken });
 
             const userFromToken = await userService.getUserByEmail(userEmail);
 
-            if (!userFromToken) throw new Error('Wrong token');
+            if (!userFromToken && !tokenPairFromDB) throw new Error('Token is not valid');
 
             req.user = userFromToken;
 

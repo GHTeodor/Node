@@ -22,11 +22,9 @@ class AuthMiddleware {
             req.user = userFromToken;
 
             next();
-        } catch ({ message }) {
-            res.status(401).json({
-                status: 401,
-                message,
-            });
+        // } catch ({ message }) { res.status(401).json({ status: 401, message });
+        } catch (e) {
+            next(e);
         }
     }
 
@@ -47,11 +45,10 @@ class AuthMiddleware {
             req.user = userFromToken;
 
             next();
-        } catch ({ message }) {
-            res.status(401).json({
-                status: 401,
-                message,
-            });
+
+        // } catch ({ message }) { res.status(401).json({ status: 401, message });
+        } catch (e) {
+            next(e);
         }
     }
 }

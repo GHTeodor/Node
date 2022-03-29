@@ -1,9 +1,12 @@
 import { NextFunction, Request, Response } from 'express';
 
-import { authService, tokenService, userService } from '../services';
-import { ITokenData, IRequestExtended } from '../interfaces';
+import {
+    authService, emailService, tokenService, userService,
+} from '../services';
+import { IRequestExtended, ITokenData } from '../interfaces';
 import { IUser } from '../entity';
 import { tokenRepository } from '../repositories';
+import { emailActionEnum } from '../constants';
 
 class AuthController {
     public async registration(req: Request, res: Response): Promise<Response<ITokenData>> {
@@ -29,6 +32,8 @@ class AuthController {
         try {
             const { id, email, password: hashPassword } = req.user as IUser;
             const { password } = req.body;
+
+            await emailService.sendMail(email, emailActionEnum.WELCOME);
 
             await userService.compareUserPasswords(password, hashPassword);
 

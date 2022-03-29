@@ -1,7 +1,6 @@
 import 'reflect-metadata';
 import express from 'express';
 import { createConnection } from 'typeorm';
-import { errors } from 'celebrate';
 
 import { apiRouter } from './routers/apiRouter';
 import { config } from './configs/config';
@@ -11,10 +10,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(apiRouter);
-app.use(errors({ statusCode: 400 }));
 // @ts-ignore
 app.use('*', (err, req, res, next) => {
-    res.status(err.code || 500)
+    res.status(err.status || 500)
         .json({
             message: err.message,
             data: err.data,

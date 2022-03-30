@@ -1,4 +1,4 @@
-export enum emailActionEnum {
+export enum EmailActionEnum {
     WELCOME,
     ACCOUNT_BLOCKED
 }

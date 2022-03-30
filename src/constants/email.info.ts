@@ -1,13 +1,13 @@
-import { emailActionEnum } from './enums';
+import { EmailActionEnum } from './enums';
 
 export const emailInfo = {
-    [emailActionEnum.WELCOME]: {
+    [EmailActionEnum.WELCOME]: {
         subject: 'Welcome to SEP-2021',
-        html: 'Hello this is welcome mail',
+        templateName: 'welcome',
     },
 
-    [emailActionEnum.ACCOUNT_BLOCKED]: {
+    [EmailActionEnum.ACCOUNT_BLOCKED]: {
         subject: 'Your account was blocked',
-        html: 'Oops account was blocked',
+        templateName: 'accountBlocked',
     },
 };

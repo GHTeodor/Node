@@ -6,7 +6,7 @@ import {
 import { IRequestExtended, ITokenData } from '../interfaces';
 import { IUser } from '../entity';
 import { tokenRepository } from '../repositories';
-import { emailActionEnum } from '../constants';
+import { EmailActionEnum } from '../constants';
 
 class AuthController {
     public async registration(req: Request, res: Response): Promise<Response<ITokenData>> {
@@ -33,7 +33,7 @@ class AuthController {
             const { id, email, password: hashPassword } = req.user as IUser;
             const { password } = req.body;
 
-            await emailService.sendMail(email, emailActionEnum.WELCOME);
+            await emailService.sendMail(email, EmailActionEnum.WELCOME, { userName: 'G00GLE' });
 
             await userService.compareUserPasswords(password, hashPassword);
 

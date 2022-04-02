@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { getManager } from 'typeorm';
 
 import { IUser, User } from '../entity';
@@ -42,6 +42,17 @@ class UserController {
     public async getUserByEmail(req: Request, res: Response): Promise<Response<IUser>> {
         const { email } = req.params;
         return res.json(await userService.getUserByEmail(email));
+    }
+
+    public async getUserPagination(req: Request, res: Response, next: NextFunction) {
+        try {
+            const { page = 1, perPage = 25, ...other } = req.query;
+            const userPagination = await userService.getUserPagination(other, +page, +perPage);
+
+            res.json(userPagination);
+        } catch (e) {
+            next(e);
+        }
     }
 }
 

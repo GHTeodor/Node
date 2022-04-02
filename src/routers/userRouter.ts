@@ -4,6 +4,7 @@ import { userController } from '../controllers';
 
 const router = Router();
 
+router.get('/pagination', userController.getUserPagination);
 router.get('/', userController.getUsers);
 router.patch('/:id', userController.patchUser_Email_Password);
 router.delete('/:id', userController.deleteUserById);

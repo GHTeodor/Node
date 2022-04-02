@@ -16,6 +16,10 @@ class UserService {
         return userRepository.getUserByEmail(email);
     }
 
+    public async getUserPagination(filterObject: Partial<IUser>, page: number, perPage: number) {
+        return userRepository.getUserPagination(filterObject, perPage, page);
+    }
+
     public async compareUserPasswords(password: string, hash: string): Promise<Error | void> {
         const isPasswordUnique = await bcrypt.compare(password, hash);
 

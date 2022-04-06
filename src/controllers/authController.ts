@@ -1,23 +1,39 @@
 import { NextFunction, Request, Response } from 'express';
+import { UploadedFile } from 'express-fileupload';
 
 import {
-    authService, emailService, tokenService, userService,
+    authService, emailService, s3Service, tokenService, userService,
 } from '../services';
-import { IRequestExtended, ITokenData } from '../interfaces';
+import { IRequestExtended } from '../interfaces';
 import { IUser } from '../entity';
 import { tokenRepository } from '../repositories';
 import { EmailActionEnum } from '../constants';
 
 class AuthController {
-    public async registration(req: Request, res: Response): Promise<Response<ITokenData>> {
-        const data = await authService.registration(req.body);
-        res.cookie(
-            'refreshToken',
-            data.refreshToken,
-            { maxAge: 24 * 60 * 60 * 3600, httpOnly: true },
-        );
+    public async registration(req: Request, res: Response, next: NextFunction): Promise<void> {
+        try {
+            const { email } = req.body;
+            const avatar = req.files?.avatar as UploadedFile;
 
-        return res.json(data);
+            const userFromDb = await userService.getUserByEmail(email);
+
+            if (userFromDb) throw new Error(`User with email: ${email} already exists`);
+
+            const createdUser = await userService.createUser(req.body);
+
+            if (avatar) await s3Service.uploadFile(avatar, 'user', createdUser.id); // UPLOAD PHOTO
+
+            const tokenData = await authService.registration(createdUser);
+            // res.cookie(
+            //     'refreshToken',
+            //     tokenData.refreshToken,
+            //     { maxAge: 24 * 60 * 60 * 3600, httpOnly: true },
+            // );
+
+            res.json(tokenData);
+        } catch (e) {
+            next(e);
+        }
     }
 
     public async logout(req: IRequestExtended, res: Response): Promise<Response<string>> {

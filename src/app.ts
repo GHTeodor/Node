@@ -2,6 +2,7 @@ import 'reflect-metadata';
 import express from 'express';
 import fileUpload from 'express-fileupload';
 import http from 'http';
+import mongoose from 'mongoose';
 import { createConnection } from 'typeorm';
 import SocketIO from 'socket.io';
 
@@ -29,31 +30,13 @@ io.on('connection', (socket: any) => {
         // EMIT TO ALL USERS IN ROOM (INCLUDE SENDER)
         io.to(data.id).emit('user_join_room', { message: `User ${socket.id} joined room ${data.id}` });
     });
-    // --------------------------------------------------------------------------------------------------
-
-    // ONE TO ONE
-    // socket.emit(event, {});
-
-    // SEND TO ALL ONLINE USERS (INCLUDE SENDER)
-    // io.emit(event, {})
-
-    // SEND TO ALL ONLINE USERS (AVOID SENDER)
-    // socket.broadcast.emit(event, {})
-
-    // socket.join(room_id)
-
-    // TO ROOM AVOID SENDER
-    // socket.broadcast.to(room_id).emit(event, {})
-
-    // TO ROOM INCLUDE SENDER
-    // io.to(room_id).emit(event, {})
-
-    // --------------------------------------------------------------------------------------------------
 });
 
 app.use(fileUpload);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+mongoose.connect('mongodb://localhost:27017/sep2021');
 
 app.use(apiRouter);
 // @ts-ignore

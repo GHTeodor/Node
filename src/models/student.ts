@@ -1,7 +1,6 @@
-import mongoose from 'mongoose';
-import { teacherModel } from './teacher';
+import { Schema, model } from 'mongoose';
 
-const { Schema, model } = mongoose;
+import { teacherModel } from './teacher';
 
 const studentSchema = new Schema({
     name: {
@@ -19,7 +18,7 @@ const studentSchema = new Schema({
         default: 0,
     },
     teacher: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         // ref: 'teacher',
         ref: teacherModel,
         default: null,

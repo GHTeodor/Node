@@ -1,0 +1,31 @@
+version: "3.7"
+
+services:
+  app:
+    build:
+      context: .
+    env_file:
+      - .env
+    restart: on-failure
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    command: >
+      /wait-for-it.sh db:3306 -- npm start
+  db:
+      image: mysql:8.0
+      ports:
+        - "3307:3306"
+      env_file:
+        - .env.-db
+      restart: on-failure
+      volumes:
+        - ./mysql:/var/lib/mysql
+  web:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    restart: on-failure
+    volumes:
+      - ./frontend:/usr/share/nginx/html
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf

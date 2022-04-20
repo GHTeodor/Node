@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Posts</title>
+</head>
+<body>
+
+    {{#each posts}}
+        <ul>
+            <li><b>userId</b>: {{this.userId}}</li>
+            <li><b>title</b>: {{this.title}}</li>
+            <li><b>text</b>: {{this.text}}</li>
+            <li><b>createdAt</b>: {{this.createdAt}}</li>
+            <li><b>deletedAt</b>: {{this.deletedAt}}</li>
+            <li><i>Posts</i>: {{#each this.comments}}
+            <ul>
+                <li><b>postId</b>: {{this.postId}}</li>
+                <li><b>title</b>: {{this.title}}</li>
+                <li><b>body</b>: {{this.body}}</li>
+                <li><b>deletedAt</b>: {{this.createdAt}}</li>
+                <li><b>createdAt</b>: {{this.deletedAt}}</li>
+            </ul>
+            {{/each}}</li>
+        </ul>
+    {{/each}}
+
+</body>
+</html>

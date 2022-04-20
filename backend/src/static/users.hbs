@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Users</title>
+</head>
+<body>
+
+{{#each users}}
+    <ul>
+        <li><b>firstName</b>: {{this.firstName}}</li>
+        <li><b>lastName</b>: {{this.lastName}}</li>
+        <li><b>age</b>: {{this.age}}</li>
+        <li><b>phone</b>: {{this.phone}}</li>
+        <li><b>email</b>: {{this.email}}</li>
+        <li><b>password</b>: {{this.password}}</li>
+        <li><b>createdAt</b>: {{this.createdAt}}</li>
+        <li><b>deletedAt</b>: {{this.deletedAt}}</li>
+        <li><i>Users</i>: {{#each this.posts}}
+            <ul>
+                <li><b>userID</b>: {{userId}}</li>
+                <li><b>title</b>: {{title}}</li>
+                <li><b>text</b>: {{text}}</li>
+                <li><b>createdAt</b>: {{this.createdAt}}</li>
+                <li><b>deletedAt</b>: {{this.deletedAt}}</li>
+            </ul>
+        {{/each}}</li>
+    </ul>
+{{/each}}
+
+</body>
+</html>

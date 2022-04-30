@@ -1,6 +1,6 @@
-export interface IPaginationResponse<T> {
-    page: number;
-    perPage: number;
-    itemCount: number;
-    data: T[];
+export interface IPaginationResponseInterface<T> {
+    page: number,
+    perPage: number,
+    itemCount: number,
+    data: T[]
 }

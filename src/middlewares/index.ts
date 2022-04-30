@@ -1,3 +1,3 @@
-export * from './auth.middleware';
-export * from './user.middleware';
+export * from './authMiddleware';
+export * from './userMiddleware';
 export * from './fileMiddleware';

@@ -1,1 +1,2 @@
-export * from './auth/auth.validator';
+export * from './auth/authValidator';
+export * from './common/emailValidator';

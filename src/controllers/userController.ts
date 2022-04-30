@@ -1,50 +1,22 @@
 import { NextFunction, Request, Response } from 'express';
-import { getManager } from 'typeorm';
+import { DeleteResult, UpdateResult } from 'typeorm';
 
-import { IUser, User } from '../entity';
+import { IUser } from '../entities/interfaces';
 import { userService } from '../services';
 
 class UserController {
-    public async getUsers(req: Request, res: Response): Promise<Response<IUser[]>> {
-        const users = await getManager().getRepository(User).find({ relations: ['posts'] });
-        // =================================
-        // const users = await getManager().getRepository(User)
-        //     .createQueryBuilder('user')
-        //     .where('user.firstName = "UA"')
-        //     .getOne();
-        // =================================
-        return res.json(users);
-    }
-
-    public async patchUser_Email_Password(req: Request, res: Response): Promise<Response<IUser>> {
-        const { email, password } = req.body;
-        const createdUser = await getManager()
-            .getRepository(User)
-            .update({ id: +req.params.id }, {
-                email,
-                password,
-            });
-        return res.json(createdUser);
-    }
-
-    public async deleteUserById(req: Request, res: Response): Promise<Response<IUser>> {
-        const deletedUser = await getManager()
-            .getRepository(User)
-            // .delete({ id: +req.params.id });
-            .softDelete({ id: +req.params.id });
-        return res.json(deletedUser);
-    }
-
-    public async createUser(req: Request, res: Response): Promise<Response<IUser>> {
-        return res.json(await userService.createUser(req.body));
+    public async getUsers(req: Request, res: Response): Promise<void> {
+        const users = await userService.getUsers();
+        return res.render('users', { users });
     }
 
     public async getUserByEmail(req: Request, res: Response): Promise<Response<IUser>> {
         const { email } = req.params;
-        return res.json(await userService.getUserByEmail(email));
+        const user = await userService.getUserByEmail(email);
+        return res.json(user);
     }
 
-    public async getUserPagination(req: Request, res: Response, next: NextFunction) {
+    public async getUserPagination(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
             const { page = 1, perPage = 25, ...other } = req.query;
             const userPagination = await userService.getUserPagination(other, +page, +perPage);
@@ -53,6 +25,24 @@ class UserController {
         } catch (e) {
             next(e);
         }
+    }
+
+    public async createUser(req: Request, res: Response): Promise<Response<IUser>> {
+        const createdUser = await userService.createUser(req.body);
+        return res.json(createdUser);
+    }
+
+    public async updateUser(req: Request, res: Response): Promise<Response<UpdateResult>> {
+        const { email, password } = req.body;
+        const { id } = req.params;
+        const updatedUser = await userService.updateUser(+id, email, password);
+        return res.json(updatedUser);
+    }
+
+    public async deleteUser(req: Request, res: Response): Promise<Response<DeleteResult>> {
+        const { id } = req.params;
+        const deletedUser = await userService.deleteUser(+id);
+        return res.json(deletedUser);
     }
 }
 

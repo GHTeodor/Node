@@ -1,16 +1,32 @@
 import 'reflect-metadata';
 import express from 'express';
 import fileUpload from 'express-fileupload';
+import http from 'http';
 import mongoose from 'mongoose';
 import path from 'path';
+import { Server } from 'socket.io';
 import { createConnection } from 'typeorm';
 import { engine } from 'express-handlebars';
 
 import { config } from './configs';
 import { apiRouter } from './routers/apiRouter';
+import { socketController } from './controllers';
 // import { cronRun } from './cron';
 
 const app = express();
+const server = http.createServer(app);
+const io = new Server(server, { cors: { origin: '*' } });
+
+io.on('connection', (socket: any) => {
+    console.log('______________-');
+    console.log('userId: ', socket.handshake.query.userId);
+    console.log('accessToken: ', socket.handshake.query.accessToken);
+    console.log('______________-');
+
+    socket.on('message:create', (data: any) => socketController.messageCreate(io, socket, data));
+    socket.on('join_room', (data: any) => socketController.joinRoom(io, socket, data));
+});
+
 app.use(fileUpload());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -31,7 +47,7 @@ app.use('*', (err, req, res, next) => {
 });
 
 const { PORT, MongoDB } = config;
-app.listen(PORT, async () => {
+server.listen(PORT, async () => {
     console.log(`Server has been started on PORT: ${PORT} 🚀🚀🚀`);
     try {
         const connectionMySQL = await createConnection();

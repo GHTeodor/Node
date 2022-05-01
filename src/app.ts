@@ -18,11 +18,6 @@ const server = http.createServer(app);
 const io = new Server(server, { cors: { origin: '*' } });
 
 io.on('connection', (socket: any) => {
-    console.log('______________-');
-    console.log('userId: ', socket.handshake.query.userId);
-    console.log('accessToken: ', socket.handshake.query.accessToken);
-    console.log('______________-');
-
     socket.on('message:create', (data: any) => socketController.messageCreate(io, socket, data));
     socket.on('join_room', (data: any) => socketController.joinRoom(io, socket, data));
 });
